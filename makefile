@@ -7,7 +7,7 @@
 # Optimize           Faster
 # Keyboard Layout    US English
 #
-# 11/12/2019 8:28 PM
+# 11/12/2019 8:45 PM
 #******************************************************************************
 SHELL            := cmd.exe
 export SHELL
@@ -21,12 +21,11 @@ LIBS_SHARED_BASE := C:\Users\Joshu\OneDrive\Documents\Arduino\libraries
 LIBS_SHARED      := 
 
 LIBS_LOCAL_BASE  := lib
-LIBS_LOCAL       := 
+LIBS_LOCAL       := SparkFun_MPU-9250_9_DOF_IMU_Breakout SparkFun_MPL3115A2_Altitude_and_Pressure_Sensor_Breakout PWMServo 
 
 CORE_BASE        := C:\PROGRA~2\Arduino\hardware\teensy\avr\cores\teensy4
 GCC_BASE         := C:\PROGRA~2\Arduino\hardware\tools\arm\bin
 UPL_PJRC_B       := C:\PROGRA~2\Arduino\hardware\tools
-UPL_TYCMD_B      := C:\PROGRA~2\Arduino\hardware\tools
 
 #******************************************************************************
 # Flags and Defines

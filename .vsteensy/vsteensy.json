@@ -13,7 +13,11 @@
       "makefileExtension": null,
       "copyCore": false,
       "sharedLibraries": [],
-      "projectLibraries": [],
+      "projectLibraries": [
+        "SparkFun_MPU_9250_9_DOF_IMU_Breakout-1.0.2.zip",
+        "SparkFun_MPL3115A2_Altitude_and_Pressure_Sensor_Breakout-1.2.4.zip",
+        "PWMServo"
+      ],
       "board": {
         "name": "Teensy 4.0",
         "options": {

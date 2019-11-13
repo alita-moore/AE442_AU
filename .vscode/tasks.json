@@ -25,14 +25,14 @@
       ]
     },
     {
-      "label": "Upload (TyCommander)",
+      "label": "Upload (teensy.exe)",
       "group": {
         "kind": "build",
         "isDefault": true
       },
       "command": "C:/Program Files (x86)/Arduino/VisualTeensy_v0.9.7.2/make.exe",
       "args": [
-        "uploadTy",
+        "upload",
         "-j",
         "-Otarget"
       ]
