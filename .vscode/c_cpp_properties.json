@@ -1,0 +1,23 @@
+{
+  "configurations": [
+    {
+      "name": "VisualTeensy",
+      "includePath": [
+        "src/**",
+        "C:\\Program Files (x86)\\Arduino\\hardware\\teensy\\avr\\cores\\teensy4"
+      ],
+      "forcedInclude": [],
+      "defines": [
+        "__IMXRT1062__",
+        "TEENSYDUINO=148",
+        "F_CPU=600000000",
+        "USB_SERIAL",
+        "LAYOUT_US_ENGLISH",
+        "ARDUINO"
+      ],
+      "compilerPath": "C:/Program Files (x86)/Arduino/hardware/tools/arm/bin/arm-none-eabi-gcc.exe",
+      "intelliSenseMode": "gcc-x64"
+    }
+  ],
+  "version": 4
+}
