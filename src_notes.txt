@@ -2,6 +2,8 @@ PACKAGE DEFINITIONS
 
 ##################
 #SERVO
+# mbed.h <servo -> src>
+# servo.h <servo -> src>
 ##################
 
 ### Example
