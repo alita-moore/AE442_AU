@@ -306,7 +306,7 @@ void loop()
   // Must be called before updating quaternions!
   myIMU.updateTime();
 
-  // Sensors x (y)-axis of the accelerometer is aligned with the y (x)-axis of
+  // avionics x (y)-axis of the accelerometer is aligned with the y (x)-axis of
   // the magnetometer; the magnetometer z-axis (+ down) is opposite to z-axis
   // (+ up) of accelerometer and gyro! We have to make some allowance for this
   // orientationmismatch in feeding the output to the quaternion filter. For the

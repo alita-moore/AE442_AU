@@ -1,12 +1,18 @@
-#include "Arduino.h"
+// #include "Arduino.h"
+#include <stdio.h>
 
-void setup()
-{
-  pinMode(LED_BUILTIN,OUTPUT);
-}
+// void setup()
+// {
+//   pinMode(LED_BUILTIN,OUTPUT);
+// }
 
-void loop()
+// void loop()
+// {
+//   digitalWriteFast(LED_BUILTIN,!digitalReadFast(LED_BUILTIN));
+//   delay(1000);
+// }
+
+int main()
 {
-  digitalWriteFast(LED_BUILTIN,!digitalReadFast(LED_BUILTIN));
-  delay(1000);
+    printf("hello world");
 }
