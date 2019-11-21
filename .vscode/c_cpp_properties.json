@@ -1,26 +1,26 @@
 {
-  "configurations": [
-    {
-      "name": "VisualTeensy",
-      "includePath": [
-        "src/**",
-        "C:\\Program Files (x86)\\Arduino\\hardware\\teensy\\avr\\cores\\teensy4",
-        "lib/SparkFun_MPU-9250_9_DOF_IMU_Breakout/**",
-        "lib/SparkFun_MPL3115A2_Altitude_and_Pressure_Sensor_Breakout/**",
-        "lib/PWMServo/**"
-      ],
-      "forcedInclude": [],
-      "defines": [
-        "__IMXRT1062__",
-        "TEENSYDUINO=148",
-        "F_CPU=600000000",
-        "USB_SERIAL",
-        "LAYOUT_US_ENGLISH",
-        "ARDUINO"
-      ],
-      "compilerPath": "C:/Program Files (x86)/Arduino/hardware/tools/arm/bin/arm-none-eabi-gcc.exe",
-      "intelliSenseMode": "gcc-x64"
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "name": "VisualTeensy",
+            "includePath": [
+                "src/**",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\teensy\\avr\\cores\\teensy4",
+                "lib/SparkFun_MPU-9250_9_DOF_IMU_Breakout/**",
+                "lib/SparkFun_MPL3115A2_Altitude_and_Pressure_Sensor_Breakout/**",
+                "lib/PWMServo/**"
+            ],
+            "forcedInclude": [],
+            "defines": [
+                "__IMXRT1062__",
+                "TEENSYDUINO=148",
+                "F_CPU=600000000",
+                "USB_SERIAL",
+                "LAYOUT_US_ENGLISH",
+                "ARDUINO"
+            ],
+            "compilerPath": "C:/cygwin64/bin/gcc.exe",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
 }
