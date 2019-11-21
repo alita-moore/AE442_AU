@@ -1,80 +1,52 @@
 {
-    "tasks": [
-        {
-            "label": "Build",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "command": "C:/Program Files (x86)/Arduino/VisualTeensy_v0.9.7.2/make.exe",
-            "args": [
-                "all",
-                "-j",
-                "-Otarget"
-            ]
-        },
-        {
-            "label": "Clean",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "command": "C:/Program Files (x86)/Arduino/VisualTeensy_v0.9.7.2/make.exe",
-            "args": [
-                "clean"
-            ]
-        },
-        {
-            "label": "Upload (teensy.exe)",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "command": "C:/Program Files (x86)/Arduino/VisualTeensy_v0.9.7.2/make.exe",
-            "args": [
-                "upload",
-                "-j",
-                "-Otarget"
-            ]
-        },
-        {
-            "type": "shell",
-            "label": "g++.exe build active file",
-            "command": "C:\\cygwin64\\bin\\g++.exe",
-            "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
-            ],
-            "options": {
-                "cwd": "C:\\cygwin64\\bin"
-            }
-        },
-        {
-            "type": "shell",
-            "label": "gcc.exe build active file",
-            "command": "C:\\cygwin64\\bin\\gcc.exe",
-            "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
-            ],
-            "options": {
-                "cwd": "C:\\cygwin64\\bin"
-            }
-        }
-    ],
-    "version": "2.0.0",
-    "type": "shell",
-    "problemMatcher": "$gcc",
-    "presentation": {
-        "echo": true,
-        "clear": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": false
+  "tasks": [
+    {
+      "label": "Build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "command": "C:/Program Files (x86)/Arduino/visual teensy/make.exe",
+      "args": [
+        "all",
+        "-j",
+        "-Otarget"
+      ]
+    },
+    {
+      "label": "Clean",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "command": "C:/Program Files (x86)/Arduino/visual teensy/make.exe",
+      "args": [
+        "clean"
+      ]
+    },
+    {
+      "label": "Upload (teensy.exe)",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "command": "C:/Program Files (x86)/Arduino/visual teensy/make.exe",
+      "args": [
+        "upload",
+        "-j",
+        "-Otarget"
+      ]
     }
+  ],
+  "version": "2.0.0",
+  "type": "shell",
+  "problemMatcher": "$gcc",
+  "presentation": {
+    "echo": true,
+    "clear": true,
+    "reveal": "always",
+    "focus": false,
+    "panel": "shared",
+    "showReuseMessage": false
+  }
 }

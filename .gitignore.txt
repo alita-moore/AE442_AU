@@ -1,0 +1,4 @@
+.vscode/
+.vsteensy/
+make.exe/
+makefile/
