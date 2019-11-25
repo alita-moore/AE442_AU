@@ -23,19 +23,18 @@
 
 #include "quaternionFilters.h"
 #include "MPU9250.h"
-#include "Arduino.h"
 
 
 
-#define AHRS false         // Set to false for basic data read
+
+#define AHRS true         // Set to false for basic data read
 #define SerialDebug true  // Set to true to get Serial output for debugging
 
 // Pin definitions
 int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
 int myLed  = 13;  // Set up pin 13 led for toggling
+// uint32_t counter = 0;
 uint32_t timer = 0;
-uint32_t counter = 0;
-
 
 #define I2Cclock 400000
 #define I2Cport Wire
@@ -115,7 +114,7 @@ void setup()
     // Initialize device for active mode read of magnetometer
     Serial.println("AK8963 initialized for active data mode....");
 
-    if (false)
+    if (SerialDebug)
     {
       //  Serial.println("Calibration values: ");
       Serial.print("X-Axis factory sensitivity adjustment value ");
@@ -168,16 +167,16 @@ void setup()
   }
 
   timer = millis();
+  // Serial.println(counter);
 }
 
 void loop()
 {
-  //Serial.println(millis()-timer);
+  
+  // Serial.println(millis()-timer);
   timer = millis();
-
-  //Serial.println(counter);
-  counter += 1;
-
+  // counter += 1;
+  // Serial.printf("%d", counter);
   // If intPin goes high, all data registers have new data
   // On interrupt, check if data ready interrupt
   if (myIMU.readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01)
@@ -280,27 +279,11 @@ void loop()
     {
       if(SerialDebug)
       {
-        Serial.print("ax = ");  Serial.print((int)1000 * myIMU.ax);
-        Serial.print(" ay = "); Serial.print((int)1000 * myIMU.ay);
-        Serial.print(" az = "); Serial.print((int)1000 * myIMU.az);
-        Serial.println(" mg");
-
-        Serial.print("gx = ");  Serial.print(myIMU.gx, 2);
-        Serial.print(" gy = "); Serial.print(myIMU.gy, 2);
-        Serial.print(" gz = "); Serial.print(myIMU.gz, 2);
-        Serial.println(" deg/s");
-
-        Serial.print("mx = ");  Serial.print((int)myIMU.mx);
-        Serial.print(" my = "); Serial.print((int)myIMU.my);
-        Serial.print(" mz = "); Serial.print((int)myIMU.mz);
-        Serial.println(" mG");
-
-        Serial.print("q0 = ");  Serial.print(*getQ());
-        Serial.print(" qx = "); Serial.print(*(getQ() + 1));
-        Serial.print(" qy = "); Serial.print(*(getQ() + 2));
-        Serial.print(" qz = "); Serial.println(*(getQ() + 3));
-
-        Serial.println(counter);
+        // Serial.printf("\r ax, ay, az = %0.4f, %0.4f, %0.4f mg", (int)1000 * myIMU.ax, (int)1000 * myIMU.ay, (int)1000 * myIMU.az);
+        // Serial.printf("\r gx, gy, gz = %04f, %0.4f, %0.4f deg/s", myIMU.gx, myIMU.gy, myIMU.gz);
+        // Serial.printf("\r mx, my, mz = %d, %d, %d mG", (int)myIMU.mx, (int)myIMU.my, (int)myIMU.mz);
+        // Serial.printf("\r q0, qx, qy, qz = %0.4f, %0.4f, %0.4f, %0.4f", *(getQ()), *(getQ() + 1), *(getQ() + 2), *(getQ() + 3));
+        Serial.print("serial debug is working, line 286");
       }
 
 // Define output variables from updated quaternion---these are Tait-Bryan
@@ -340,16 +323,9 @@ void loop()
 
       if(SerialDebug)
       {
-        Serial.print("Yaw, Pitch, Roll: ");
-        Serial.print(myIMU.yaw, 2);
-        Serial.print(", ");
-        Serial.print(myIMU.pitch, 2);
-        Serial.print(", ");
-        Serial.println(myIMU.roll, 2);
-
-        Serial.print("rate = ");
-        Serial.print((float)myIMU.sumCount / myIMU.sum, 2);
-        Serial.println(" Hz");
+        // Serial.printf("\r Yaw, Pitch, Roll: %0.4f, %0.4f, %0.4f", myIMU.yaw, myIMU.pitch, myIMU.roll);
+        // Serial.printf("\r rate = %0.4f Hz", (float)myIMU.sumCount / myIMU.sum);
+        Serial.print("serial debug, line 328");
       }
 
       myIMU.count = millis();

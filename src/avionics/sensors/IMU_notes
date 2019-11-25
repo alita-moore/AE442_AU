@@ -1,0 +1,8 @@
+launched with debug from 'main.cpp' file provided by Josh. This was then launched:
+    - pitch was working fine
+    - roll was responding well
+    - yaw was not responding well
+
+the onboard code is reported to run at about 9khz
+
+
