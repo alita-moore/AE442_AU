@@ -1,12 +1,9 @@
-#include <stdint.h>
-#include <stdio.h>
-#include <math.h>
-#include <MPU9250.h>
+// This file requires that values be initialized in main.cpp
+extern uint32_t counter;
+extern debug bug;
+extern uint32_t timer;
+extern MPU9250 myIMU;
 
-typedef struct imu_raw{
-    float omega[3];
-    float acc[3];
-}imu_raw;
 
 void update_IMU(){
     //Serial.println(millis()-timer);
@@ -64,13 +61,17 @@ void update_IMU(){
                          myIMU.gy * DEG_TO_RAD, myIMU.gz * DEG_TO_RAD, myIMU.my,
                          myIMU.mx, myIMU.mz, myIMU.deltat);
 
-  if (!AHRS)
+  if (!bug.imu_AHRS)
   {
     myIMU.delt_t = millis() - myIMU.count;
     if (myIMU.delt_t > 500)
     {
-      if(SerialDebug)
+      if(bug.imu)
       {
+        // Differentiate
+        Serial.println("IMU Debug -----------------------------");
+        Serial.print("Counter: "); Serial.println(counter);
+
         // Print acceleration values in milligs!
         Serial.print("X-acceleration: "); Serial.print(1000 * myIMU.ax);
         Serial.print(" mg ");
@@ -115,8 +116,12 @@ void update_IMU(){
     // update LCD once per half-second independent of read rate
     if (myIMU.delt_t > 500)
     {
-      if(SerialDebug)
+      if(bug.imu)
       {
+        // Differentiate
+        Serial.println("IMU Debug -----------------------------");
+        Serial.print("Counter: "); Serial.println(counter);
+
         Serial.print("ax = ");  Serial.print((int)1000 * myIMU.ax);
         Serial.print(" ay = "); Serial.print((int)1000 * myIMU.ay);
         Serial.print(" az = "); Serial.print((int)1000 * myIMU.az);
@@ -175,7 +180,7 @@ void update_IMU(){
       myIMU.yaw  -= 8.5;
       myIMU.roll *= RAD_TO_DEG;
 
-      if(SerialDebug)
+      if(bug.imu)
       {
         Serial.print("Yaw, Pitch, Roll: ");
         Serial.print(myIMU.yaw, 2);
@@ -194,11 +199,4 @@ void update_IMU(){
       myIMU.sum = 0;
     } // if (myIMU.delt_t > 500)
   } // if (AHRS)
-    
-    
-    
-    // update state_raw.omega
-    
-
-    // update state_raw.acc
 }

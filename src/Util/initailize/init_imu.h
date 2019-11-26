@@ -1,22 +1,5 @@
-#include <MPU9250.h>
-#include <quaternionFilters.h>
-
-#define AHRS false         // Set to false for basic data read
-#define SerialDebug true  // Set to true to get Serial output for debugging
-
-// Pin definitions
-int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
-int myLed  = 13;  // Set up pin 13 led for toggling
-uint32_t timer = 0;
-uint32_t counter = 0;
-
-
-#define I2Cclock 400000
-#define I2Cport Wire
-//#define MPU9250_ADDRESS MPU9250_ADDRESS_AD0   // Use either this line or the next to select which I2C address your device is using
-#define MPU9250_ADDRESS MPU9250_ADDRESS_AD0
-
-MPU9250 myIMU(MPU9250_ADDRESS, I2Cport, I2Cclock);
+extern debug bug;
+extern 
 
 void setup_IMU()
 {
@@ -89,7 +72,7 @@ void setup_IMU()
     // Initialize device for active mode read of magnetometer
     Serial.println("AK8963 initialized for active data mode....");
 
-    if (false)
+    if (bug.imu)
     {
       //  Serial.println("Calibration values: ");
       Serial.print("X-Axis factory sensitivity adjustment value ");
@@ -119,7 +102,7 @@ void setup_IMU()
     Serial.println(myIMU.magScale[2]);
 //    delay(2000); // Add delay to see results before serial spew of data
 
-    if(SerialDebug)
+    if(bug.imu)
     {
       Serial.println("Magnetometer:");
       Serial.print("X-Axis sensitivity adjustment value ");
