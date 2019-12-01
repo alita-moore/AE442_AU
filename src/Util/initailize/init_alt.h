@@ -1,4 +1,4 @@
-extern float alt_zero;
+float alt_zero = 0.0;
 
 void setup_alt(){
     Wire.begin();        // Join i2c bus
@@ -15,8 +15,10 @@ void setup_alt(){
 
     for(int i = 0; i<1000; i++){
         alt_zero += myPressure.readAltitudeFt()/((float) 1000);
+        delay(1);
     }
+    
     Serial.print("altitude zero at ");
     Serial.print(alt_zero);
     Serial.println("ft");
-}
+}  

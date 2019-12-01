@@ -13,6 +13,12 @@ float temp;
 bool ignition;
 float thrust;
 float alt;
+int addr;
+int loops;
+bool save;
+bool control;
+bool out_ignite;
+bool out_servo;
 
 void setup_globals(){
     Kp = 10;
@@ -36,5 +42,15 @@ void setup_globals(){
     theta[0] = 0;
     theta[1] = 0;
 
+    alt = 0;
+
+    addr = 0;
+
+    loops = 0;
+
     ignition = false;
+    save = false;
+    control = false;
+    out_ignite = false;
+    out_servo = false;
 }

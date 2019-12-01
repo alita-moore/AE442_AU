@@ -50,13 +50,22 @@ Note: files are included as they are for easy debugging
     #include "avionics\clean\low_pass.h" // lp structure, low_pass(lp, value)
 
 ////// pd controller
-    #include "avionics\control\pd.h"
+    #include "avionics\control\pd.h" // performs pd control with global values
 
-int loops = 0;
-int j = 0;
-extern float lim_s1[2];
-extern float lim_s2[2];
-float alt;
+////// EEPROM save
+    #include "Data\save.h" // the save functions used in main loop
+
+////// modes
+    #include "Util\modes.h" // lists of which loop items are performed for each mode
+
+////// Servos
+    #include <PWMServo.h>
+    #include <output\servo.h>
+    PWMServo S_1;
+    PWMServo S_2;
+
+extern int loops;
+extern float alt_zero;
 
 void setup(){
   // zero/define all globals
@@ -69,74 +78,95 @@ void setup(){
   bug.low_pass_spam = false; // output all data from low_pass?
   bug.loop = false; // output loop progress?
   bug.control = false; // output control steps?
-  bug.ang = false;
+  bug.ang = false;  // output the calculated angle?
 
   // Setup sensors
   setup_IMU();
   setup_alt();
-
+  setup_servos((int)3, (int)4); // (pin S_1, pin S_2) -> type int
 }
 
 void loop(){
   if(bug.loop){
     Serial.println("loop started");
   }
-  
-  update_IMU(); // update myIMU
-  
-  if(bug.loop){
-    Serial.println("updated IMU");
-    loops += 1;
-    Serial.println(loops);
-  }
-  
-  //////
-  // control
-  //////
+  loops += 1;
 
-  // Check if IMU values have updated, if so then perform actions
-  if(!(myIMU.pitch == theta[0])){
-    // Perform clean
-    // low_pass(*pitch, myIMU.pitch); // clean pitch
-    // low_pass(*gx, myIMU.gx); // clean gx
-    
-    // Perform control
-    theta[0] = myIMU.pitch;
-    omega[0] = myIMU.gx;
-    torque[0] = pd(theta[0], omega[0]);
-    if(bug.loop){
-      Serial.print("pitch and gx updated and torque found on loop ");
-      Serial.println(loops);
-    }
-  } 
-  
-  if(!(myIMU.roll == theta[1])){
-    // perform clean
-    // low_pass(*roll, myIMU.roll); // clean roll
-    // low_pass(*gy, myIMU.gy); // clean gy
-
-    // perform control
-    theta[1] = myIMU.roll;
-    omega[1] = myIMU.gy;
-    torque[1] = pd(theta[1], omega[1]);
-    if(bug.loop){
-      Serial.print("roll and gy updated and torque found on loop ");
-      Serial.println(loops);
-    }
-  }
-
-  // find desired servo angle (needs updating)
-  get_ang(torque, s_ang);
-  if(bug.loop){
-    Serial.print("Angle 2 found on loop ");
-    Serial.println(loops);
-  }
-
-  // get altitude reading
+  /////////////// All mode loops
+  // update myIMU
+  update_IMU(); 
   alt = myPressure.readAltitudeFt() - alt_zero;
+
+  if(bug.loop && loops % 1000 == 0){
+    Serial.print("updated IMU, updated alt :: loop ");
+    Serial.println(loops);
+  }
+
   if(bug.alt){
     Serial.print("Relative Altitude(ft): ");
     Serial.println(alt, 2);
   }
+  
+  //////////////////////
+  // control
+  //////////////////////
+  if(control){
+    // Check if IMU values have updated, if so then perform actions
+    if(!(myIMU.pitch == theta[0])){
+      // Perform clean
+      // low_pass(*pitch, myIMU.pitch); // clean pitch
+      // low_pass(*gx, myIMU.gx); // clean gx
+      
+      // Perform control
+      theta[0] = myIMU.pitch;
+      omega[0] = myIMU.gx;
+      torque[0] = pd(theta[0], omega[0]);
+      if(bug.loop){
+        Serial.print("pitch and gx updated and torque found on loop ");
+        Serial.println(loops);
+      }
+    } 
+    
+    if(!(myIMU.roll == theta[1])){
+      // perform clean
+      // low_pass(*roll, myIMU.roll); // clean roll
+      // low_pass(*gy, myIMU.gy); // clean gy
 
+      // perform control
+      theta[1] = myIMU.roll;
+      omega[1] = myIMU.gy;
+      torque[1] = pd(theta[1], omega[1]);
+      if(bug.loop){
+        Serial.print("roll and gy updated and torque found on loop ");
+        Serial.println(loops);
+      }
+    }
+
+    // find desired servo angle (needs updating)
+    get_ang(torque, s_ang);
+    if(bug.loop){
+      Serial.print("Angle 2 found on loop ");
+      Serial.println(loops);
+    }
+  }
+
+  if(out_servo){
+    S_1.write(s_ang[0]);
+    S_2.write(s_ang[1]);
+  }
+
+  /////////////
+  // Save to EEPROM
+  /////////////
+  if(save){
+    if(loops%1000 == 0){
+      EEPROM_writeAnything(addr, alt);
+      EEPROM_writeAnything(addr, myIMU.pitch);
+      EEPROM_writeAnything(addr, myIMU.roll);
+      EEPROM_writeAnything(addr, myIMU.gx);
+      EEPROM_writeAnything(addr, myIMU.gy);
+      EEPROM_writeAnything(addr, s_ang);
+      EEPROM_writeAnything(addr, false);
+    }
+  }
 }
