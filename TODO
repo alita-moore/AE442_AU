@@ -1,0 +1,10 @@
+- debug and make low_pass.h work as intended
+- create a checking and criteria architecture for the mode system (the run architecture is implemented)
+- determine what variables need to be saved, and test to make sure of functionality
+- build an ignition output
+- get control constants (all constants, for that matter)
+- get the servo bounds and assign in globals
+- implement an LED checking sytem that demonstrates all outputs and major internal
+    functions are working properly -> simple struct with boolean values
+- build a functional dependency map, optimize inputs, and test in all necessary modes
+- pray for jesus
