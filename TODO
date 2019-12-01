@@ -7,4 +7,10 @@
 - implement an LED checking sytem that demonstrates all outputs and major internal
     functions are working properly -> simple struct with boolean values
 - build a functional dependency map, optimize inputs, and test in all necessary modes
+- make sure that all sensors are properly initialized/zeroed
 - pray for jesus
+
+
+PROBLEMS -> outside of code crashing bugs
+- I see that the values from the IMU only update about once every half-second yet 
+    claim to be running at 9khz. this is strange and warrants further investigation.

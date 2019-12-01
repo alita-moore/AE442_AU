@@ -1,7 +1,7 @@
 /* main.cpp for AE442
 The purpose of this file is to perform all main function calls to achieve the following:
 
-Note: files are included as they are for easy debugging
+Note: files are included as they are for easier debugging
 */
 #include "Arduino.h"
 #include "quaternionFilters.h"
@@ -60,7 +60,7 @@ Note: files are included as they are for easy debugging
 
 ////// Servos
     #include <PWMServo.h>
-    #include <output\servo.h>
+    #include <output\servo.h> // contains the function to initialize servos
     PWMServo S_1;
     PWMServo S_2;
 
