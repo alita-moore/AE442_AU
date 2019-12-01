@@ -1,5 +1,4 @@
 extern debug bug;
-extern 
 
 void setup_IMU()
 {

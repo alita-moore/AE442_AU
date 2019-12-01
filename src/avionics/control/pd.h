@@ -1,20 +1,47 @@
-//
-// Created by Dragi on 11/20/2019.
-//
-float Kp;
-float Kd;
+extern float Kp;
+extern float Kd;
+extern debug bug;
+extern float temp;
+extern float thrust;
+extern float lim_s1[2];
+extern float lim_s2[2];
 
-typedef struct control{
-    float s_ang[2];
-    float torque[2];
-    float omega[2];
-    float theta[2];
-}control;
-
-
-void pd(control state){
-    state.torque[0] = -Kp*state.theta[0] - Kd*state.omega[0];
-    state.torque[1] = -Kp*state.theta[1] - Kd*state.omega[1];
-
+float pd(float thet, float omeg){
+    Serial.println("control begins");
     
+    temp = -Kp*thet-Kd*omeg;
+    
+    Serial.println("temp set");
+    
+    if(bug.control){
+        Serial.print("omega: ");
+        Serial.print(omeg);
+        Serial.print("\t theta: ");
+        Serial.print(thet);
+        Serial.print("\t torque: ");
+        Serial.println(temp);
+    }
+
+    return temp;
+}
+
+void get_ang(float torque[2], float s_ang[2]){
+    s_ang[0] = (float) 1;
+    s_ang[1] = (float) 1;
+
+    if(bug.ang){
+        Serial.println("angles found");
+    }
+
+    if(s_ang[0] > lim_s1[1]){
+        s_ang[0] = lim_s1[1];
+    } else if(s_ang[0] < lim_s1[0]){
+        s_ang[0] = lim_s1[0];
+    }
+
+    if(s_ang[1] > lim_s2[1]){
+        s_ang[1] = lim_s2[1];
+    } else if(s_ang[1] < lim_s2[0]){
+        s_ang[1] = lim_s2[0];
+    }
 }
