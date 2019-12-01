@@ -10,6 +10,9 @@ Note: files are included as they are for easy debugging
 #include <math.h>
 #include <stdlib.h>
 
+////// global variables and typedefs
+    #include "Data\global.h"
+
 ////// debug
     #include "util\debug.h"
       // All debug options are set at ::() initial value
@@ -37,78 +40,41 @@ Note: files are included as they are for easy debugging
 
 ////// low_pass cleaner
     #include "avionics\clean\low_pass.h" // lp structure, low_pass(lp, value)
-    lp* pitch = (lp*)malloc(sizeof(lp));
-    lp* roll = (lp*)malloc(sizeof(lp));
-    lp* gx = (lp*)malloc(sizeof(lp));
-    lp* gy = (lp*)malloc(sizeof(lp));
+
+////// pd controller
+    #include "avionics\control\pd.h"
 
 int loops = 0;
 int j = 0;
+extern float lim_s1[2];
+extern float lim_s2[2];
 
 void setup(){
   // Define debug settings (redefined for clarity)
   bug.imu = false; // output imu debug info?
   bug.imu_AHRS = true; // if output imu debug, output verbose info?
   bug.low_pass = true; // output low_pass debug?
-  bug.low_pass_spam = true;
+  bug.low_pass_spam = true; // output all data from low_pass?
+  bug.loop = false;
 
   // Setup sensors
   setup_IMU();
 
-  // pitch low pass init
-  pitch->index = 0; // zero index
-  pitch->avg = 0.0; // zero avg
-  pitch->beta = 0.2; // assign desired beta
-  pitch->name = 0; // assign desired int value that defines name in get_name(int name)
-  for(int i = 0; i <50; i++){  
-    pitch->value[i] = 0.0; // zero all values 
-  }
-  
-  // roll low pass init
-  roll->index = 0;
-  roll->avg = 0.0;
-  roll->beta = 0.2;
-  roll->name = 1;
-  for(int i=0; i<50; i++){
-    roll->value[i] = 0.0;
-  }
-
-  // init_lp(pitch,0.2, 0);
-  // init_lp(roll, 0.2, 1);
-  // init_lp(gx, 0.2, 2);
-  // init_lp(gy, 0.2, 3);
 }
 
 void loop(){
-  Serial.println("loop started");
+  if(bug.loop){
+    Serial.println("loop started");
+  }
+  
   update_IMU(); // update myIMU
   
-  Serial.println("updated IMU");
-  loops += 1;
-  Serial.println(loops);
+  if(bug.loop){
+    Serial.println("updated IMU");
+    loops += 1;
+    Serial.println(loops);
+  }
 
-  // Serial.println(pitch->name);
-  Serial.println(roll->name);
-  Serial.println(pitch->beta);
-  Serial.println(get_name(pitch->name));
-  Serial.println(get_name(roll->name));
-  // Serial.println(get_name(gx->name));
-  // Serial.println(get_name(gy->name));
-  
- 
-  // if(!(myIMU.pitch == pitch->value[pitch->index])){
-  //   low_pass(*pitch, myIMU.pitch); // clean pitch
-  // }
-  
 
-  // // Check if IMU values have updated, if so then perform action
-  // if(!(myIMU.pitch == pitch->value[pitch->index])){
-  //   low_pass(*pitch, myIMU.pitch); // clean pitch
-  // } if(!(myIMU.roll == roll->value[roll->index])){
-  //   low_pass(*roll, myIMU.roll); // clean roll
-  // } if(!(myIMU.gx == gx->value[gx->index])){
-  //   low_pass(*gx, myIMU.roll); // clean gx
-  // } if(!(myIMU.gy == gy->value[gy->index])){
-  //   low_pass(*gy, myIMU.roll); // clean gy
-  // } 
+
 }
