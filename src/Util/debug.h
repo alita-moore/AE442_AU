@@ -9,4 +9,6 @@ typedef struct debug{
     bool control = false; // outputs control outputs and inputs
     bool ang = false; // outputs ang inputs and outputs
     bool alt = false; // outputs the current relative altitude
+    bool zero = false;  //outupts the current loop and zeros
+    bool save_debug = false; // outputs the datastream per time SD save is called
 }debug;

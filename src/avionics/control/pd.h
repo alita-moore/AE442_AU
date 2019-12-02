@@ -7,7 +7,9 @@ extern float lim_s1[2];
 extern float lim_s2[2];
 
 float pd(float thet, float omeg){
-    Serial.println("control begins");
+    if(bug.loop){
+        Serial.println("control begins");
+    }
     
     temp = -Kp*thet-Kd*omeg;
     if(bug.loop){

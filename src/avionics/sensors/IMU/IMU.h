@@ -83,7 +83,7 @@ void update_IMU(){
   if (!bug.imu_AHRS)
   {
     myIMU.delt_t = millis() - myIMU.count;
-    if (myIMU.delt_t > 50)
+    if (myIMU.delt_t > 1)
     {
       if(bug.imu)
       {

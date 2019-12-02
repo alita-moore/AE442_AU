@@ -4,7 +4,7 @@ extern int i;
 // type definition for defining any number of values to track and clean
 typedef struct lp{
     float beta;  // 4 bytes, constant that determines percent difference to clean
-    float value[50];  // 200 bytes, saves last 50 values
+    float value[100];  // 200 bytes, saves last 50 values
     int index;  // 4 bytes, index index that loops
     float avg;  // 4 bytes, created for a running average
     int name; // MUST BE DEFINED IN get_name() AS REGULAR ASSIGMENT DOESN'T WORK
@@ -12,12 +12,12 @@ typedef struct lp{
 
 // initialize data types (lp* type, float beta, int name)
 void init_lp(lp* lp_struct, float beta, int name){
-    // memset(lp_struct, 0, sizeof(lp));
+    //lp_struct = (lp*)malloc(sizeof(lp));
     lp_struct->index = 0; // zero index
     lp_struct->avg = 0.0f; // zero avg
     lp_struct->beta = beta; // assign desired beta
     lp_struct->name = name; // assign desired int value that defines name in get_name(int name)
-    for(int i = 0; i <50; i++){  
+    for(int i = 0; i <100; i++){  
       lp_struct->value[i] = 0.0f; // zero all values 
     }
 }
@@ -38,8 +38,8 @@ char* get_name(int name){
 }
 
 float low_pass(lp* lp_struct, float val){
-    int num_values = 50;
-    float num_values_f = 50.0f;
+    int num_values = 100;
+    float num_values_f = 100.0f;
     
     // reset index to loop (therefore this runs on the last 50 values averaged)
     if(lp_struct->index >= num_values-1){

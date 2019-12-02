@@ -19,6 +19,14 @@ bool save;
 bool control;
 bool out_ignite;
 bool out_servo;
+bool zero;
+
+float pitch_zero;
+float roll_zero;
+float gx_zero;
+float gy_zero;
+
+bool SD_open_cond;
 
 void setup_globals(){
     Kp = 0.5;
@@ -48,9 +56,17 @@ void setup_globals(){
 
     loops = 0;
 
+    pitch_zero = 0.0f;
+    roll_zero = 0.0f;
+    gx_zero = 0.0f;
+    gy_zero = 0.0f;
+
     ignition = false;
+    zero = false;
     save = false;
     control = false;
     out_ignite = false;
     out_servo = false;
+
+    SD_open_cond = true;
 }

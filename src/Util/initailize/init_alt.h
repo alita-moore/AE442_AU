@@ -12,13 +12,15 @@ void setup_alt(){
 
     myPressure.setOversampleRate(7); // Set Oversample to the recommended 128
     myPressure.enableEventFlags(); // Enable all three pressure and temp event flags 
-
-    for(int i = 0; i<2000; i++){
-        alt_zero += myPressure.readAltitudeFt()/((float) 2000);
-        delay(1);
-    }
     
     Serial.print("altitude zero at ");
     Serial.print(alt_zero);
     Serial.println("ft");
-}  
+} 
+
+void zero_alt(){
+    for(int i = 0; i<2000; i++){
+        alt_zero += myPressure.readAltitudeFt()/((float) 2000);
+        delay(1);
+    }
+}

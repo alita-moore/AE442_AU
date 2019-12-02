@@ -4,9 +4,8 @@ void setup_IMU()
 {
   Wire.begin();
   // TWBR = 12;  // 400 kbit/sec I2C speed
-  Serial.begin(38400);
 
-  while(!Serial){};
+  
 
   // Set up the interrupt pin, its set as active high, push-pull
   pinMode(intPin, INPUT);
