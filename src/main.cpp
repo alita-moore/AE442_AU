@@ -52,6 +52,7 @@ Note: files are included as they are for easier debugging
     lp* gx = (lp*)malloc(sizeof(lp));
     lp* roll = (lp*)malloc(sizeof(lp));
     lp* gy = (lp*)malloc(sizeof(lp));
+    lp* lp_alt = (lp*)malloc(sizeof(lp));
 
 ////// pd controller
     #include "avionics\control\pd.h" // performs pd control with global values
@@ -60,8 +61,6 @@ Note: files are included as they are for easier debugging
     const int chipSelect = 10; // for SD_setup()
     #include "Data\save.h" // the save functions used in main loop
     
-
-
 ////// modes
     #include "Util\modes.h" // lists of which loop items are performed for each mode
 
@@ -103,6 +102,7 @@ void setup(){
   init_lp(gx, 0.05f, 2);
   init_lp(roll, 0.05f, 1);
   init_lp(gy, 0.05, 3);
+  init_lp(lp_alt, 0.05, 4);
 
   // Setup sensors
   setup_IMU();
@@ -121,9 +121,9 @@ void loop(){
   // update myIMU
   update_IMU(); 
   if(!zero){
-    alt = myPressure.readAltitudeFt();
+    alt = low_pass(lp_alt, myPressure.readAltitudeFt());
   } else{
-    alt = myPressure.readAltitudeFt() - alt_zero - 19.22;
+    alt = low_pass(lp_alt, myPressure.readAltitudeFt() - alt_zero);
   }
 
   if(bug.loop && loops % 1000 == 0){
@@ -139,13 +139,13 @@ void loop(){
   //////////////////////
   // zeroing
   //////////////////////
-  if(loops<2000){
+  if(loops<200){
     pitch_zero = pitch->avg;
     roll_zero = roll->avg;
     gx_zero = gx->avg;
     gy_zero = gy->avg;
+    alt_zero = lp_alt->avg;
 
-    alt_zero = alt;
     if(bug.zero){
       Serial.println('zero----');
       Serial.print("pitch_zero = ");

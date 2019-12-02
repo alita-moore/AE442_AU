@@ -32,6 +32,8 @@ char* get_name(int name){
         return "gx";
     }else if(name == 3){
         return "gy";
+    }else if(name == 4){
+        return "alt";    
     }else{
         return "no name given";
     }
@@ -53,7 +55,6 @@ float low_pass(lp* lp_struct, float val){
         Serial.print(lp_struct->name);
         Serial.print("\t beta: ");
         Serial.println(lp_struct->beta);
-
     }
 
     // update the running average
