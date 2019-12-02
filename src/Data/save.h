@@ -45,7 +45,7 @@ void SD_setup()
 //   }
 
   // if the file is available, write to it:
-  String header = "time [ms],loops,alt [relative ft],pitch [deg],roll [deg],gx [deg/s],gy [deg/s]";
+  String header = "time [ms],loops,alt [relative ft],pitch [deg],roll [deg],gx [deg/s],gy [deg/s], torq_x [N/m], torq_y [N/m]";
   if (dataFile) {
     dataFile.println(header);
     dataFile.close();
@@ -73,6 +73,10 @@ void SD_save(){
   dataStream += String(gx->avg);
   dataStream += ",";
   dataStream += String(gy->avg);
+  dataStream += ",";
+  dataStream += String(torque[0]);
+  dataStream += ",";
+  dataStream += String(torque[1]);
 
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.

@@ -32,11 +32,11 @@ void setup_globals(){
     Kp = 0.5;
     Kd = 0.1;
     
-    lim_s1[0] = 2;
-    lim_s1[1] = 150;
+    lim_s1[0] = 10;
+    lim_s1[1] = 170;
     
-    lim_s2[0] = 2;
-    lim_s2[1] = 150;
+    lim_s2[0] = 10;
+    lim_s2[1] = 170;
     
     s_ang[0] = 0;
     s_ang[1] = 0;

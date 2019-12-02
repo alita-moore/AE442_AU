@@ -1,16 +1,21 @@
-- debug and make low_pass.h work as intended
 - create a checking and criteria architecture for the mode system (the run architecture is implemented)
-- determine what variables need to be saved, and test to make sure of functionality
 - build an ignition output
-- get control constants (all constants, for that matter)
-- get the servo bounds and assign in globals
 - implement an LED checking sytem that demonstrates all outputs and major internal
     functions are working properly -> simple struct with boolean values
 - build a functional dependency map, optimize inputs, and test in all necessary modes
-- make sure that all sensors are properly initialized/zeroed
-- pray for jesus
+    modes:
+        init -> loops < 200 or physical command
+        ascend -> control but no access to outputs
+        release -> accesst to outputs and SD save
+        ignite -> post ignition, remove access to ignition output and begin the thrust curve timer
+        landing -> gimble stops, control stops, save continues, all LEDs have a victory light show
+        
+- install servo and make sure that it's properly zeroed (more hardware than software, but have initialization step, perhaps)
+- make SD save files change on each iteration (the name)
 
 
 PROBLEMS -> outside of code crashing bugs
-- I see that the values from the IMU only update about once every half-second yet 
-    claim to be running at 9khz. this is strange and warrants further investigation.
+- Startup not putting out serial outputs, which may result in unkown sudden failure
+    -> implement a error log if no Serial outputs are outputted (also LED stuff works too)
+    -> let run for a very long time in each place
+
