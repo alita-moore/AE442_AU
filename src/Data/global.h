@@ -21,8 +21,8 @@ bool out_ignite;
 bool out_servo;
 
 void setup_globals(){
-    Kp = 10;
-    Kd = 10;
+    Kp = 0.5;
+    Kd = 0.1;
     
     lim_s1[0] = 2;
     lim_s1[1] = 150;

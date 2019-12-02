@@ -61,10 +61,29 @@ void update_IMU(){
                          myIMU.gy * DEG_TO_RAD, myIMU.gz * DEG_TO_RAD, myIMU.my,
                          myIMU.mx, myIMU.mz, myIMU.deltat);
 
+  myIMU.yaw   = atan2(2.0f * (*(getQ()+1) * *(getQ()+2) + *getQ()
+                    * *(getQ()+3)), *getQ() * *getQ() + *(getQ()+1)
+                    * *(getQ()+1) - *(getQ()+2) * *(getQ()+2) - *(getQ()+3)
+                    * *(getQ()+3));
+  myIMU.pitch = -asin(2.0f * (*(getQ()+1) * *(getQ()+3) - *getQ()
+                * *(getQ()+2)));
+  myIMU.roll  = atan2(2.0f * (*getQ() * *(getQ()+1) + *(getQ()+2)
+                * *(getQ()+3)), *getQ() * *getQ() - *(getQ()+1)
+                * *(getQ()+1) - *(getQ()+2) * *(getQ()+2) + *(getQ()+3)
+                * *(getQ()+3));
+  myIMU.pitch *= RAD_TO_DEG;
+  myIMU.yaw   *= RAD_TO_DEG;
+
+  // Declination of SparkFun Electronics (40°05'26.6"N 105°11'05.9"W) is
+  // 	8° 30' E  ± 0° 21' (or 8.5°) on 2016-07-19
+  // - http://www.ngdc.noaa.gov/geomag-web/#declination
+  myIMU.yaw  -= 8.5;
+  myIMU.roll *= RAD_TO_DEG;
+
   if (!bug.imu_AHRS)
   {
     myIMU.delt_t = millis() - myIMU.count;
-    if (myIMU.delt_t > 500)
+    if (myIMU.delt_t > 50)
     {
       if(bug.imu)
       {
@@ -106,7 +125,7 @@ void update_IMU(){
 
       myIMU.count = millis();
       digitalWrite(myLed, !digitalRead(myLed));  // toggle led
-    } // if (myIMU.delt_t > 500)
+    } // if (myIMU.delt_t > 50)
   } // if (!AHRS)
   else
   {
@@ -114,7 +133,7 @@ void update_IMU(){
     myIMU.delt_t = millis() - myIMU.count;
 
     // update LCD once per half-second independent of read rate
-    if (myIMU.delt_t > 500)
+    if (myIMU.delt_t > 50)
     {
       if(bug.imu)
       {
@@ -161,24 +180,6 @@ void update_IMU(){
 // For more see
 // http://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 // which has additional links.
-      myIMU.yaw   = atan2(2.0f * (*(getQ()+1) * *(getQ()+2) + *getQ()
-                    * *(getQ()+3)), *getQ() * *getQ() + *(getQ()+1)
-                    * *(getQ()+1) - *(getQ()+2) * *(getQ()+2) - *(getQ()+3)
-                    * *(getQ()+3));
-      myIMU.pitch = -asin(2.0f * (*(getQ()+1) * *(getQ()+3) - *getQ()
-                    * *(getQ()+2)));
-      myIMU.roll  = atan2(2.0f * (*getQ() * *(getQ()+1) + *(getQ()+2)
-                    * *(getQ()+3)), *getQ() * *getQ() - *(getQ()+1)
-                    * *(getQ()+1) - *(getQ()+2) * *(getQ()+2) + *(getQ()+3)
-                    * *(getQ()+3));
-      myIMU.pitch *= RAD_TO_DEG;
-      myIMU.yaw   *= RAD_TO_DEG;
-
-      // Declination of SparkFun Electronics (40°05'26.6"N 105°11'05.9"W) is
-      // 	8° 30' E  ± 0° 21' (or 8.5°) on 2016-07-19
-      // - http://www.ngdc.noaa.gov/geomag-web/#declination
-      myIMU.yaw  -= 8.5;
-      myIMU.roll *= RAD_TO_DEG;
 
       if(bug.imu)
       {

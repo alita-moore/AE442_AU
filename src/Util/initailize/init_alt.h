@@ -2,7 +2,7 @@ float alt_zero = 0.0;
 
 void setup_alt(){
     Wire.begin();        // Join i2c bus
-    Serial.begin(9600);  // Start serial for output
+    //Serial.begin(9600);  // Start serial for output
 
     myPressure.begin(); // Get sensor online
 
@@ -13,8 +13,8 @@ void setup_alt(){
     myPressure.setOversampleRate(7); // Set Oversample to the recommended 128
     myPressure.enableEventFlags(); // Enable all three pressure and temp event flags 
 
-    for(int i = 0; i<1000; i++){
-        alt_zero += myPressure.readAltitudeFt()/((float) 1000);
+    for(int i = 0; i<2000; i++){
+        alt_zero += myPressure.readAltitudeFt()/((float) 2000);
         delay(1);
     }
     

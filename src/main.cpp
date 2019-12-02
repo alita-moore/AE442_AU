@@ -48,6 +48,10 @@ Note: files are included as they are for easier debugging
 
 ////// low_pass cleaner
     #include "avionics\clean\low_pass.h" // lp structure, low_pass(lp, value)
+    lp* pitch;
+    lp* roll;
+    lp* gx;
+    lp* gy;
 
 ////// pd controller
     #include "avionics\control\pd.h" // performs pd control with global values
@@ -70,15 +74,25 @@ extern float alt_zero;
 void setup(){
   // zero/define all globals
   setup_globals();
+  ignition = false;
+  save = false;
+  control = true;
+  out_ignite = false;
+  out_servo = false;
   
   // Define debug settings (redefined for clarity)
   bug.imu = false; // output imu debug info?
   bug.imu_AHRS = true; // if output imu debug, output verbose info?
   bug.low_pass = false; // output low_pass debug?
-  bug.low_pass_spam = false; // output all data from low_pass?
+  bug.low_pass_spam = true; // output all data from low_pass?
   bug.loop = false; // output loop progress?
-  bug.control = false; // output control steps?
+  bug.control = true; // output control steps?
   bug.ang = false;  // output the calculated angle?
+  bug.alt = false;
+
+  // low pass setup
+  init_lp(pitch, 0.05f, 0);
+  init_lp(gx, 0.05f, 2);
 
   // Setup sensors
   setup_IMU();
@@ -114,8 +128,8 @@ void loop(){
     // Check if IMU values have updated, if so then perform actions
     if(!(myIMU.pitch == theta[0])){
       // Perform clean
-      // low_pass(*pitch, myIMU.pitch); // clean pitch
-      // low_pass(*gx, myIMU.gx); // clean gx
+      // low_pass(pitch, myIMU.pitch); // clean pitch
+      low_pass(gx, myIMU.gx);
       
       // Perform control
       theta[0] = myIMU.pitch;
@@ -159,7 +173,7 @@ void loop(){
   // Save to EEPROM
   /////////////
   if(save){
-    if(loops%1000 == 0){
+    if(loops % 1000 == 0){
       EEPROM_writeAnything(addr, alt);
       EEPROM_writeAnything(addr, myIMU.pitch);
       EEPROM_writeAnything(addr, myIMU.roll);

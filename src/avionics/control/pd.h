@@ -10,9 +10,10 @@ float pd(float thet, float omeg){
     Serial.println("control begins");
     
     temp = -Kp*thet-Kd*omeg;
-    
-    Serial.println("temp set");
-    
+    if(bug.loop){
+        Serial.println("temp set");
+    }
+
     if(bug.control){
         Serial.print("omega: ");
         Serial.print(omeg);
