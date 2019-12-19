@@ -70,8 +70,8 @@ Note: files are included as they are for easier debugging
     PWMServo S_1;
     PWMServo S_2;
 
-extern int loops;
-extern float alt_zero;
+////// ignition
+    #include <output\ignite.h>
 
 void setup(){
   Serial.begin(38600);
@@ -164,6 +164,7 @@ void loop(){
   } else {
     zero = true;
   }
+
   if(bug.zero){
       Serial.print("pitch avg = ");
       Serial.print(pitch->avg);
@@ -236,13 +237,21 @@ void loop(){
     S_2.write(s_ang[1]);
   }
 
+  // check release status, if status changes
+  if()
+
   /////////////
   // Save to SD
   /////////////
-  // if(loops % 15 == 0){
-  //   Serial.println(millis());
-  // }
   if(save && loops % 15 == 0){
     SD_save();
   }
+  
+  ////////////
+  // LED stuff
+  ////////////
+  
+  // check standby rocket ignition (yellow)
+  
+  // check armed rocket ignition (red) -- controlled by time
 }
