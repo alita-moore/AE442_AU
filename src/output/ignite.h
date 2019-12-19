@@ -9,7 +9,7 @@ bool check_standby(){
      if(false){ // if the switch is ON = true
           return true;
      } else {
-          false;
+          return false;
      }
 }
 
@@ -31,11 +31,41 @@ bool check_ignition(){
      }
 }
 
-void FIRE(){
-     // some code that signals fire mode this should be a permanent loop and not repeat if already true
+// this function runs through each necessary loop, sets variables, times, and ignites
+void ignition_protocol(){
+     if(bug.ignite_checks){
+          Serial.print("Standby: ");
+          Serial.print(check_standby());
+          Serial.print(" Armed: ");
+          Serial.print(check_armed());
+          Serial.print(" Ignition: ");
+          Serial.println(check_ignition());
+     }
+
+     
      if(check_standby()){
           if(check_armed()){
+               if(!release){
+                    ignite_timer = millis();
+                    release = true;
+
+                    if(bug.ignite_checks){
+                         Serial.print("RELEASE! Ignition timer has started at loop ");
+                         Serial.print(loops);
+                         Serial.print(", timer: ");
+                         Serial.print(ignite_timer);
+                         Serial.println(" (ms)");
+                    }
+               }
                
+               if(abs(ignite_timer - millis())>ignite_time){
+                    FIRE();
+                    ignition = true;
+               }
           }
      }
+}
+
+void FIRE(){
+     // set the variables to true to fire
 }

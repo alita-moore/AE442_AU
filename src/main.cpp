@@ -1,7 +1,10 @@
 /* main.cpp for AE442
 The purpose of this file is to perform all main function calls to achieve the following:
 
-Note: files are included as they are for easier debugging
+Note: files are included as they are due to an oversight of coding header files
+      as a result, the code is poorly defined, and works with great dependence on this file's construction.
+      In other words, if you try to use this in a more robust way or try to change the code, prepare to redo
+      all the header files such that they are not order-dependent.
 */
 #include "Arduino.h"
 #include "quaternionFilters.h"
@@ -98,6 +101,8 @@ void setup(){
   bug.zero = false;  // output zeroing steps/values?
   bug.save_debug = false;  // output datastream?
   bug.servo = false; // output the inputted servo angles?
+  bug.ignite_checks = true; // output the current read outputs from the checks?
+  bug.ignite_spam = true; // output every current ignition parameter every loop?
 
   // low pass setup
   init_lp(pitch, 0.05f, 0);
@@ -111,6 +116,14 @@ void setup(){
   setup_alt();
   setup_servos((int)8, (int)9); // (pin S_1, pin S_2) -> type int
   SD_setup();
+
+  // Define control parameters
+  Kp = 5*(0.003);
+  Kd = 0.003;
+
+  // Define ignition parameters
+  ignite_time = 5000; // MUST BE IN MILLISECONDS
+  ignite_timer = millis(); // for the debug option, simplifies things
 }
 
 void loop(){
@@ -237,8 +250,27 @@ void loop(){
     S_2.write(s_ang[1]);
   }
 
-  // check release status, if status changes
-  if()
+  /////////////
+  // ignition
+  /////////////
+  if(out_ignite){
+    if(!(ignition)){
+      ignition_protocol();
+    }
+
+    if(bug.ignite_checks){
+      Serial.print("Standby: ");
+      Serial.print(check_standby()); // this depends on the switch status
+      Serial.print(" Release: ");
+      Serial.print(release); // this means that the motor is now armed/the timer has started
+      Serial.print(" Armed: ");
+      Serial.print(check_armed()); // this is based on the teensy reader after bridge
+      Serial.print(" Ignition: ");
+      Serial.print(check_ignition()); // depends on the value on the side of the trigger
+      Serial.print(" timer-time:");
+      Serial.println(abs(ignite_timer-millis()));
+    }
+  }
 
   /////////////
   // Save to SD
@@ -251,7 +283,11 @@ void loop(){
   // LED stuff
   ////////////
   
-  // check standby rocket ignition (yellow)
+  // LED for each status boolean
+    // initialize
+    // control
+    // out_servo
+    // out_ignite
+    // 
   
-  // check armed rocket ignition (red) -- controlled by time
 }

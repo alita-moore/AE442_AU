@@ -2,7 +2,6 @@
 #include <SD.h>
 
 // I did not make these, they were from the following arduino post: https://forum.arduino.cc/index.php?topic=41497.0
-
 template <class T> int EEPROM_writeAnything(int ee, const T& value)
 {
    const byte* p = (const byte*)(const void*)&value;

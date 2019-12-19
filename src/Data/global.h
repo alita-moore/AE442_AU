@@ -26,13 +26,13 @@ bool save; // saves to SSD every 15 loops
 bool control; // performs control via PD controller
 bool out_ignite; // allowance for ignition to even be checked -> quadruple redudance
 bool out_servo; // allow outputs to access servos?
-bool ignition; // final ignition command
-bool zero;
+bool zero; // initialize?
     // ignition
-    bool ignite;
+    bool ignition; // final ignition command
+    bool release; // whether or not the drone has been released, used to start the timer
 
 // 'trash'
-bool SD_open_cond;
+bool SD_open_cond; // was first used to minimize the number of times the SD is opened, did not warrant implementation
 
 void setup_globals(){
     // Controls
@@ -65,14 +65,14 @@ void setup_globals(){
     ignite_time = 0.0f;
 
     // initialize the booleans
-    ignition = false;
     zero = false;
     save = false;
     control = false;
     out_ignite = false;
     out_servo = false;
         // ignition
-        ignite = false;
+        ignition = false;
+        release = false;
 
     // unused variables (trash but not deleted because unsure if actually trash)
     SD_open_cond = true;
