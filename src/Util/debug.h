@@ -11,4 +11,5 @@ typedef struct debug{
     bool alt = false; // outputs the current relative altitude
     bool zero = false;  //outupts the current loop and zeros
     bool save_debug = false; // outputs the datastream per time SD save is called
+    bool servo = false;
 }debug;

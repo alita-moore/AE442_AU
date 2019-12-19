@@ -29,8 +29,8 @@ float gy_zero;
 bool SD_open_cond;
 
 void setup_globals(){
-    Kp = 0.5;
-    Kd = 0.1;
+    Kp = 5*(0.003);
+    Kd = 0.003;
     
     lim_s1[0] = 10;
     lim_s1[1] = 170;

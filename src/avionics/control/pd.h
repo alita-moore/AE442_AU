@@ -31,16 +31,17 @@ float pd(float thet, float omeg){
 void get_ang(float torque[2], float s_ang[2]){
     float thrust = 22.2f;
     float offset[2] = {90, 90};
+    float gimbal_range = 10; // range p/m degree
     
     // apply the necessary equations to find beta and alpha
     float beta = torque[0]/(thrust*0.1329);
-    if(!abs(beta)<1){
+    if(!(abs(beta)<1)){
         beta = beta/(abs(beta)+0.001);
     }
     beta = asin(beta);
 
     float alpha = torque[1]/(thrust*0.1329*cos(beta));
-    if(!abs(alpha)<1){
+    if(!(abs(alpha)<1)){
         alpha = alpha/(abs(alpha)+0.001);
     }
     alpha = asin(alpha);
@@ -48,6 +49,15 @@ void get_ang(float torque[2], float s_ang[2]){
     // convert radians to angles (for simple servo action)
     beta = beta*180/M_PI;
     alpha = alpha*180/M_PI;
+
+    // bound the gimnbal angles (between p/m maximums)
+    if(abs(beta)>=gimbal_range){
+        beta = beta/(abs(beta))*gimbal_range;
+    }
+
+    if(abs(alpha)>=gimbal_range){
+        alpha = alpha/(abs(alpha))*gimbal_range;
+    }
 
     if(bug.ang){
         Serial.print("Desired gimbal angle, [beta, alpha]: [ ");
@@ -73,7 +83,7 @@ void get_ang(float torque[2], float s_ang[2]){
         Serial.println("]");
     }
 
-    // Check servo limits, max or min as provided
+    // Check servo limits, max or min as provided (MIGHT BE REDUNDANT)
     if(s_ang[0] > lim_s1[1]){
         s_ang[0] = lim_s1[1];
     } else if(s_ang[0] < lim_s1[0]){

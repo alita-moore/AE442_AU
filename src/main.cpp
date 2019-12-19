@@ -75,7 +75,8 @@ extern float alt_zero;
 
 void setup(){
   Serial.begin(38600);
-  while(!Serial){};
+  delay(2000);
+  //while(!Serial){};
   
   // zero/define all globals
   setup_globals();
@@ -83,7 +84,7 @@ void setup(){
   save = true;
   control = true;
   out_ignite = false;
-  out_servo = false;
+  out_servo = true;
   
   // Define debug settings (redefined for clarity)
   bug.imu = false; // output imu debug info?
@@ -92,10 +93,11 @@ void setup(){
   bug.low_pass_spam = false; // output all data from low_pass?
   bug.loop = false; // output loop progress?
   bug.control = false; // output control steps?
-  bug.ang = false;  // output the calculated angle?
+  bug.ang = true;  // output the calculated angle?
   bug.alt = false;  // output currently read relative altitude?
   bug.zero = false;  // output zeroing steps/values?
-  bug.save_debug = true;  // output datastream?
+  bug.save_debug = false;  // output datastream?
+  bug.servo = false; // output the inputted servo angles?
 
   // low pass setup
   init_lp(pitch, 0.05f, 0);
@@ -107,7 +109,7 @@ void setup(){
   // Setup sensors
   setup_IMU();
   setup_alt();
-  setup_servos((int)3, (int)4); // (pin S_1, pin S_2) -> type int
+  setup_servos((int)8, (int)9); // (pin S_1, pin S_2) -> type int
   SD_setup();
 }
 
@@ -223,6 +225,13 @@ void loop(){
   }
 
   if(out_servo){
+    if(bug.servo){
+      Serial.print("S_1 = ");
+      Serial.print(s_ang[0]);
+      Serial.print(" --- S_2 = ");
+      Serial.println(s_ang[1]);
+    }
+
     S_1.write(s_ang[0]);
     S_2.write(s_ang[1]);
   }

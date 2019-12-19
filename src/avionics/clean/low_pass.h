@@ -23,7 +23,7 @@ void init_lp(lp* lp_struct, float beta, int name){
 }
 
 // define name based on an int because arduinos do not like char* in a struct
-char* get_name(int name){
+String get_name(int name){
     if(name == 0){
         return "pitch";
     }else if(name == 1){
