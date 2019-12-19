@@ -63,9 +63,6 @@ Note: files are included as they are due to an oversight of coding header files
 ////// EEPROM save
     const int chipSelect = 10; // for SD_setup()
     #include "Data\save.h" // the save functions used in main loop
-    
-////// modes
-    #include "Util\modes.h" // lists of which loop items are performed for each mode
 
 ////// Servos
     #include <PWMServo.h>
